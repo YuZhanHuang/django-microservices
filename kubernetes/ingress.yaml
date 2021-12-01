@@ -1,0 +1,31 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ambassador-ingress
+  annotations:
+    kubernetes.io/ingress.class: "gce"
+spec:
+  rules:
+  - http:
+      paths:
+      - pathType: ImplementationSpecific
+        path: /api/admin/*
+        backend:
+          service:
+            name: admin-backend
+            port:
+              number: 8002
+      - pathType: ImplementationSpecific
+        path: /api/ambassador/*
+        backend:
+          service:
+            name: ambassador-backend
+            port:
+              number: 8003
+      - pathType: ImplementationSpecific
+        path: /api/checkout/*
+        backend:
+          service:
+            name: checkout-backend
+            port:
+              number: 8004

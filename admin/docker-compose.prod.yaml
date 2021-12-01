@@ -1,0 +1,49 @@
+version: '3'
+services:
+  admin_backend:
+    build: .
+    image: yuchanhuang/admin:0.0.11
+    environment:
+      BOOTSTRAP_SERVICE: pkc-l7j7w.asia-east1.gcp.confluent.cloud:9092
+      SECURITY_PROTOCOL: SASL_SSL
+      SASL_USERNAME: EWGW6CHWHXQ6M2I3
+      SASL_PASSWORD: lBYnFyIMYAjqtrOrdZA7THC0EYKafF2bc7kX5mjPMzy8+G7qy6KthRyOYXHidy91
+      SASL_MECHANISMS: PLAIN
+      GROUP_ID: myGroup
+      DB_HOST: 35.221.171.138
+      DB_DATABASE: admin
+      DB_PORT: 3306
+      DB_USERNAME: root
+      DB_PASSWORD: root
+      KAFKA_TOPIC: ambassador_topic
+#      USERS_MS: http://users-backend:8001
+      USERS_MS: http://usersms:8001
+    command:
+    - "/bin/bash"
+    - "-c"
+    - "python manage.py wait_for_db && python manage.py runserver 0.0.0.0:8000"
+    ports:
+      - 8002:8000
+
+  admin_queue:
+    build: .
+    image: yuchanhuang/admin:0.0.6
+    environment:
+      BOOTSTRAP_SERVICE: pkc-l7j7w.asia-east1.gcp.confluent.cloud:9092
+      SECURITY_PROTOCOL: SASL_SSL
+      SASL_USERNAME: EWGW6CHWHXQ6M2I3
+      SASL_PASSWORD: lBYnFyIMYAjqtrOrdZA7THC0EYKafF2bc7kX5mjPMzy8+G7qy6KthRyOYXHidy91
+      SASL_MECHANISMS: PLAIN
+      GROUP_ID: myGroup
+      DB_HOST: 35.221.171.138
+      DB_DATABASE: admin
+      DB_PORT: 3306
+      DB_USERNAME: root
+      DB_PASSWORD: root
+      KAFKA_TOPIC: ambassador_topic
+#      USERS_MS: http://users-backend:8001
+      USERS_MS: http://usersms:8001
+    command:
+    - "/bin/bash"
+    - "-c"
+    - "python manage.py wait_for_db && python consumer.py"

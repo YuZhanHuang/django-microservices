@@ -1,0 +1,17 @@
+version: '3'
+services:
+  email_backend:
+    build: .
+    image: yuchanhuang/email:0.0.3
+    environment:
+      BOOTSTRAP_SERVICE: pkc-l7j7w.asia-east1.gcp.confluent.cloud:9092
+      SECURITY_PROTOCOL: SASL_SSL
+      SASL_USERNAME: EWGW6CHWHXQ6M2I3
+      SASL_PASSWORD: lBYnFyIMYAjqtrOrdZA7THC0EYKafF2bc7kX5mjPMzy8+G7qy6KthRyOYXHidy91
+      SASL_MECHANISMS: PLAIN
+      GROUP_ID: myGroup
+      KAFKA_TOPIC: email_topic
+      EMAIL_HOST: smtp.mailtrap.io
+      EMAIL_PORT: 2525
+      EMAIL_USERNAME: b60fee6fad8257
+      EMAIL_PASSWORD: 1b5c40d6261ccb

@@ -1,0 +1,13 @@
+version: '3'
+services:
+  users_backend:
+    build: .
+    image: yuchanhuang/users:0.0.6
+    environment:
+      DB_HOST: 104.155.195.229
+      DB_DATABASE: users
+      DB_PORT: 3306
+      DB_USERNAME: root
+      DB_PASSWORD: root
+    ports:
+      - 8001:8000
