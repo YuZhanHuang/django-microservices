@@ -1,0 +1,51 @@
+version: '3'
+services:
+  checkout_backend:
+    build: .
+    image: yuchanhuang/checkout:0.0.3
+    environment:
+      BOOTSTRAP_SERVICE: pkc-l7j7w.asia-east1.gcp.confluent.cloud:9092
+      SECURITY_PROTOCOL: SASL_SSL
+      SASL_USERNAME: EWGW6CHWHXQ6M2I3
+      SASL_PASSWORD: lBYnFyIMYAjqtrOrdZA7THC0EYKafF2bc7kX5mjPMzy8+G7qy6KthRyOYXHidy91
+      SASL_MECHANISMS: PLAIN
+      GROUP_ID: myGroup
+      DB_HOST: 34.81.156.252
+      DB_DATABASE: checkout
+      DB_PORT: 3306
+      DB_USERNAME: root
+      DB_PASSWORD: root
+      KAFKA_TOPIC: checkout_topic
+      USERS_MS: http://usersms:8001
+      STRIPE_KEY: sk_test_51JzApBJGUoxxhmAhUSA8mEFbAGN641J1kLKPSjMZhrnVXhv1SPe14n8eqUQBSxjHIYHyyz30a5VwqAHkmVhPzV4X00VjKKTkCn
+      CHECKOUT_URL: http://localhost:5000
+    command:
+    - "sh"
+    - "-c"
+    - "python manage.py wait_for_db && python manage.py runserver 0.0.0.0:8000"
+    ports:
+      - "8004:8000"
+
+  checkout_queue:
+    build: .
+    image: yuchanhuang/checkout:0.0.2
+    environment:
+      BOOTSTRAP_SERVICE: pkc-l7j7w.asia-east1.gcp.confluent.cloud:9092
+      SECURITY_PROTOCOL: SASL_SSL
+      SASL_USERNAME: EWGW6CHWHXQ6M2I3
+      SASL_PASSWORD: lBYnFyIMYAjqtrOrdZA7THC0EYKafF2bc7kX5mjPMzy8+G7qy6KthRyOYXHidy91
+      SASL_MECHANISMS: PLAIN
+      GROUP_ID: myGroup
+      DB_HOST: 34.81.156.252
+      DB_DATABASE: checkout
+      DB_PORT: 3306
+      DB_USERNAME: root
+      DB_PASSWORD: root
+      KAFKA_TOPIC: checkout_topic
+      USERS_MS: http://usersms:8001
+      STRIPE_KEY: sk_test_51JzApBJGUoxxhmAhUSA8mEFbAGN641J1kLKPSjMZhrnVXhv1SPe14n8eqUQBSxjHIYHyyz30a5VwqAHkmVhPzV4X00VjKKTkCn
+      CHECKOUT_URL: http://localhost:5000
+    command:
+    - "/bin/bash"
+    - "-c"
+    - "python manage.py wait_for_db && python consumer.py"
