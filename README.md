@@ -1,5 +1,7 @@
 # django-microservices
-拆分服務與k8s部署練習
+> 拆分服務與k8s部署練習，
+> 此專案的拓墣圖在docs中
+
 ## 部署在 Google Kubernetes Engine
 
 ### 先部署MySQL的服務(GCP提供的服務 SQL)
